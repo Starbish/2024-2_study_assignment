@@ -17,9 +17,19 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+//        const float fMinJumpInterval = 0.1f;
         // 좌클릭시 RemainJump를 하나 소모하여 CharacterJumpPower의 힘으로 점프한다.
         // ---------- TODO ---------- 
-        
+//        bool isJumpPressed = Input.GetKey()
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(RemainJump > 0)
+            {
+                Jump(CharacterJumpPower);
+                RemainJump--;
+            }
+        }
+
         // -------------------- 
     }
 
@@ -33,7 +43,17 @@ public class Character : MonoBehaviour
     {
         // tag가 Platform인 것과 충돌하면 RemainJump를 초기화한다.
         // tag가 Obstacle인 것과 충돌하면 게임 오버한다.
-        // ---------- TODO ---------- 
+        // ---------- TODO ----------
+        string name = col.gameObject.tag;
+        if(name == "Platform")
+        {
+            RemainJump = MaxJump;
+        }
+
+        else if(name == "Obstacle")
+        {
+            GM.GameOver();
+        }
         
         // -------------------- 
     }
@@ -42,7 +62,12 @@ public class Character : MonoBehaviour
     {
         // tag가 Point인 것과 충돌하면 Point를 하나 얻고, 충돌한 오브젝트를 삭제한다.
         // ---------- TODO ---------- 
-        
+        string name = col.gameObject.tag;
+        if(name == "Point")
+        {
+            GM.GetPoint(1);
+            Destroy(col.gameObject);
+        }
         // -------------------- 
     }
 }
